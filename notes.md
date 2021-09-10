@@ -22,7 +22,7 @@ emitter.on('event1', function (err) {
 })
 ```
    
-1. 所谓的once，即便是同一个函数多次once，**也会是被多次执行的。** ，下一个emit失效 
+3. 所谓的once，即便是同一个函数多次once，**也会是被多次执行的。** ，下一个emit失效 
 ```js
 const emitter = require('./emitter');
 
@@ -175,15 +175,21 @@ function arrayClone(arr, n) {
 基于Node12版本的测试结果来看，无论是时间还是内存的消耗来看，都还不及slice，所以对这里有疑惑。
 
 
-
-7. 数组删除某项没采用splice，而是采取了遍历复制和pop 
+7. 数组删除某项没采用splice，而是采取了遍历复制和pop
+```js
+function spliceOne(list, index) {
+    for (; index + 1 < list.length; index++)
+        list[index] = list[index + 1];
+    list.pop()
+}
+```
 基于Node12版本的测试结果来看，无论是时间还是内存的消耗来看，都还不及spice，所以对这里有疑惑。
 
 当index在比较大的情况下 rss（常驻集大小，是进程在主内存设备（即总分配内存的子集）中占用的空间量，包括所有 C++ 和 JavaScript 对象和代码。） 是0.
 
 
 
-8. onceWraper和原本的监听的关联, wraper.listener指向原本的
+1. onceWraper和原本的监听的关联, wraper.listener指向原本的
 ```js
 function _onceWrap(target, type, listener) {
   var state = { fired: false, wrapFn: undefined, target: target, type: type, listener: listener };

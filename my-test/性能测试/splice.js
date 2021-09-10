@@ -9,7 +9,7 @@ const arr = Array.from({ length: 100 * 10000 }, function (v, index) {
 function spliceOne(list, index) {
     for (; index + 1 < list.length; index++)
         list[index] = list[index + 1];
-    list.pop(), index
+    list.pop()
 }
 
 function splice(list, index) {
