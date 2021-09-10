@@ -1,6 +1,6 @@
 ### 几个注意点
 
-1. 某类型事件处理程序里面， 可以再增加某类型的事件处理程序，下次生效
+1. 某类型事件处理程序里面， 可以再增加某类型的事件处理程序，**下次生效**
 ```js
 emitter.on('event1', function (err) {
     console.log("event1");
@@ -11,7 +11,8 @@ emitter.on('event1', function (err) {
 ```
    
 
-2. 某类型事件程序程序里面可以再emit， 结果就是死循环
+2. 某类型事件程序程序里面可以再emit， **结果就是死循环**
+redux 有标记是否在派发中，当然库的作用不一样
 ```js
 emitter.on('event1', function (err) {
     console.log("event1");
@@ -21,7 +22,7 @@ emitter.on('event1', function (err) {
 })
 ```
    
-3. 所谓的once，即便是同一个函数多次once，也会是被多次执行的。 
+1. 所谓的once，即便是同一个函数多次once，**也会是被多次执行的。** ，下一个emit失效 
 ```js
 const emitter = require('./emitter');
 
@@ -41,7 +42,7 @@ emitter.emit("event1")
 
 ```
 
-4. 添加和删除事件，是有事件通知的
+4. 添加和删除事件，**是有事件通知的**
 ```js
 const emitter = require('./emitter');
 
@@ -86,7 +87,19 @@ redux的设计则派发(dispatch)的事件处理程序里面不允许再
 
 6. 还暴露了一个全局的基于Promise的once，
    需要传入一个Emitter, EventTarget也支持
+```js
+const otherEmitter = new EventTarget();
+const emitter = new window.module.exports();
 
+window.module.exports.once(otherEmitter, "click").then(function([ev]){
+    console.log(ev.type, ev.detail) // click 123
+});
+
+const ev = new CustomEvent("click", {
+    detail: 123
+});
+otherEmitter.dispatchEvent(ev)
+```
 
 
 ## 代码思考点

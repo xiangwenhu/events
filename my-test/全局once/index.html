@@ -13,15 +13,21 @@
     <script>
         window.module = {};
     </script>
-    <script script="../../events.js"></script>
+    <script src="../../events.js"></script>
 
     <script>
 
         const otherEmitter = new EventTarget();
-
         const emitter = new window.module.exports();
 
-        window.module.once(emitter)
+        window.module.exports.once(otherEmitter, "click").then(function([ev]){
+            console.log(ev.type, ev.detail) // click 123
+        });
+
+        const ev = new CustomEvent("click", {
+            detail: 123
+        });
+        otherEmitter.dispatchEvent(ev)
 
 
     </script>
