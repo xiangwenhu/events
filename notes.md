@@ -164,9 +164,24 @@ function onceWrapper() {
 
 
 6. 数组拷贝没采用slice，而是循环拷贝
+```js
+function arrayClone(arr, n) {
+    var copy = new Array(n);
+    for (var i = 0; i < n; ++i)
+        copy[i] = arr[i];
+    return copy;
+}
+```
+基于Node12版本的测试结果来看，无论是时间还是内存的消耗来看，都还不及slice，所以对这里有疑惑。
 
 
-7. 数组删除某项没采用splice，而是采取了遍历复制和pop
+
+7. 数组删除某项没采用splice，而是采取了遍历复制和pop 
+基于Node12版本的测试结果来看，无论是时间还是内存的消耗来看，都还不及spice，所以对这里有疑惑。
+
+当index在比较大的情况下 rss（常驻集大小，是进程在主内存设备（即总分配内存的子集）中占用的空间量，包括所有 C++ 和 JavaScript 对象和代码。） 是0.
+
+
 
 8. onceWraper和原本的监听的关联, wraper.listener指向原本的
 ```js
